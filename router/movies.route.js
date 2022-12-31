@@ -1,5 +1,5 @@
 import express from "express";
-import{client} from "../index.js"
+import { getMovies, getMovieById, creatMovies, deleteMoviesById, updateMoviesById } from "../services/movies.servies.js";
 
 const router=express.Router();
 
@@ -9,11 +9,7 @@ router.get("/", async function (request, response) {
     }
     console.log(request.query)
   const data=request.body;
-    const movies = await client
-    .db("mongo")
-    .collection("movies")
-    .find(request.query)
-    .toArray();
+    const movies = await getMovies(request);
    
     response.send(movies);
    });
@@ -21,7 +17,7 @@ router.get("/", async function (request, response) {
    router.get("/:id", async function (request, response) {
     const {id}=request.params
   // db.movies.findone{id:'99'}  
-   const movie= await client.db("mongo").collection("movies").findOne({id:id})
+   const movie= await getMovieById(id)
   //  const movie=movies.find((mv)=>mv.id===id)
    console.log(movie)
     movie
@@ -32,7 +28,7 @@ router.get("/", async function (request, response) {
   router.post("/" ,async function (request, response) {
     const data=request.body;
     console.log(data)
-    const result=await client.db("mongo").collection("movies").insertMany(data)
+    const result=await creatMovies(data)
     response.send(result)
     
   });
@@ -40,7 +36,7 @@ router.get("/", async function (request, response) {
   router.delete("/:id", async function (request, response) {
     const {id}=request.params
   // db.movies.deleteone{id:'99'}  
-   const result= await client.db("mongo").collection("movies").deleteOne({id:id})
+   const result= await deleteMoviesById(id)
   //  const movie=movies.find((mv)=>mv.id===id)
    console.log(result)
    result
@@ -52,7 +48,7 @@ router.get("/", async function (request, response) {
     const {id}=request.params
     const data=request.body;
   // db.movies.updateeone({id:'99'},{$set:{rating: 9}}) 
-   const result= await client.db("mongo").collection("movies").updateOne({id:id},{$set:data})
+   const result= await updateMoviesById(id, data)
   //  const movie=movies.find((mv)=>mv.id===id)
    console.log(result)
    response.send(result)
@@ -62,3 +58,5 @@ router.get("/", async function (request, response) {
   });
 
   export default router;
+
+
