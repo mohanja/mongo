@@ -1,5 +1,6 @@
 import express from "express";
 import { auth } from "../middelware/auth.js";
+import { getMovies } from "../services/movies.servies.js";
 
 const router=express.Router();
 

@@ -4,7 +4,7 @@ import { getMovies, getMovieById, creatMovies, deleteMoviesById, updateMoviesByI
 
 const router=express.Router();
 
-router.get("/",auth, async function (request, response) {
+router.get("/", async function (request, response) {
     if (request.query.rating){
       request.query.rating=+request.query.rating
     }
@@ -15,7 +15,7 @@ router.get("/",auth, async function (request, response) {
     response.send(movies);
    });
   
-   router.get("/:id",auth, async function (request, response) {
+   router.get("/:id", async function (request, response) {
     const {id}=request.params
   // db.movies.findone{id:'99'}  
    const movie= await getMovieById(id)
@@ -26,7 +26,7 @@ router.get("/",auth, async function (request, response) {
     :response.status(404).send({message:"movies not found"})
   });
   
-  router.post("/",auth, async function (request, response) {
+  router.post("/", async function (request, response) {
     const data=request.body;
     console.log(data)
     const result=await creatMovies(data)
@@ -34,7 +34,7 @@ router.get("/",auth, async function (request, response) {
     
   });
   
-  router.delete("/:id",auth, async function (request, response) {
+  router.delete("/:id", async function (request, response) {
     const {id}=request.params
   // db.movies.deleteone{id:'99'}  
    const result= await deleteMoviesById(id)
