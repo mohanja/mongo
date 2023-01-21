@@ -137,6 +137,55 @@ const mobiles=[{
    }
    ]
 
+   const movies1 = [
+    {
+      id:"1",
+      image: "https://cdn.zeebiz.com/sites/default/files/2023/01/16/221614-varisu-vijay.jpg",
+      title: "Varisu",
+      language: "Tamil",
+      cretifict: "U"
+    },
+    {id:"2",
+      image: "https://th.bing.com/th?id=OIF.DD62LnFlgze9rR%2f6YlSCSA&pid=ImgDet&rs=1",
+      title: "Thunivu",
+      language: "Tamil",
+      cretifict: "U/A"
+    }
+  ];
+
+  app.delete("/movies1/:id", async  (request, response)=> {
+    const {id}=request.params
+  // db.movies.deleteone{id:'99'}  
+   const result= await client.db("mongo").collection("movies1").deleteOne({id:id})
+  //  const movie=movies.find((mv)=>mv.id===id)
+   console.log(result)
+   result
+    ?response.send({message:"delete successfuly"})
+    :response.status(404).send({message:"movies not found"})
+  });
+  
+  app.put("/movies1/:id", async  (request, response)=> {
+    const {id}=request.params
+    const data=request.body;
+  // db.movies.updateeone({id:'99'},{$set:{rating: 9}}) 
+   const result= await client.db("mongo").collection("movies1").updateOne({id:id},{$set:data})
+  //  const movie=movies.find((mv)=>mv.id===id)
+   console.log(result)
+   response.send(result)
+  //  result
+  //   ?response.send({message:"update successfuly"})
+  //   :response.status(404).send({message:"movies not found"})
+  });
+
+  app.get("/movies1",(request,response)=>{
+    response.send(movies1)
+  })
+
+  app.post("/movies1",async(request,response)=>{
+    const data=request.body;
+    const result=await client.db("mongo").collection("movies1").insertMany(data) 
+    response.send(result)
+  })
 
 app.get("/",function (rrequest,response){
   response.send("🙋‍♂️, 🌏 🎊✨🤩 !!!");
